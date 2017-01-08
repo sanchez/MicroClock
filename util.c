@@ -23,3 +23,7 @@ void init_timers() {
 ISR(TIMER0_COMPA_vect) {
     clock_ticks++;
 }
+
+void delay(unsigned int period) {
+    _delay_ms(period);
+}

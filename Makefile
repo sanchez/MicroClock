@@ -1,4 +1,4 @@
-SOURCES=io.c util.c print.c serial.c
+SOURCES=io.c util.c print.c serial.c spi.c dmd.c
 MEGASOURCES=main.c
 TESTSOURCES=tester.c test.c testIO.c
 CFLAGS=-Wall -std=gnu99 -pedantic -g

@@ -17,6 +17,7 @@ void init_uart(unsigned long baudrate) {
 
     stdout = &uartOutput;
     stdin = &uartInput;
+    stderr = &uartOutput;
     // stdout = &uartStream;
     // stdin = &uartStream;
 }
