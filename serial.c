@@ -1,6 +1,7 @@
 #include "serial.h"
 
 FILE uartOutput = FDEV_SETUP_STREAM(uart_putchar, NULL, _FDEV_SETUP_WRITE);
+FILE uartInput = FDEV_SETUP_STREAM(NULL, uart_getchar, _FDEV_SETUP_READ);
 
 void init_uart(unsigned long baudrate) {
     // unsigned int baudPrescale = (((F_CPU/(baudrate * 8UL))) - 1);
@@ -11,12 +12,11 @@ void init_uart(unsigned long baudrate) {
     UBRR0H = (baudPrescale >> 8);
     UBRR0L = baudPrescale;
 
-    FILE uartStream = FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
-
     out_buffer = NULL;
     in_buffer = NULL;
 
     stdout = &uartOutput;
+    stdin = &uartInput;
     // stdout = &uartStream;
     // stdin = &uartStream;
 }
