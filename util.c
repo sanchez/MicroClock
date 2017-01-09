@@ -27,3 +27,8 @@ ISR(TIMER0_COMPA_vect) {
 void delay(unsigned int period) {
     _delay_ms(period);
 }
+
+byte get_bit(unsigned long l, byte pos) {
+    unsigned long bit = l >> pos;
+    return bit & 1;
+}

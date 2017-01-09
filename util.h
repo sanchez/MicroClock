@@ -21,4 +21,6 @@ void init_timers();
 
 void delay(unsigned int period);
 
+byte get_bit(unsigned long l, byte pos);
+
 #endif

@@ -5,7 +5,7 @@ void init_spi() {
     cli();
     pinMode(22, PIN_OUTPUT);
 
-    SPCR = (1 << SPE) | (1 << MSTR);
+    SPCR = (1 << SPE) | (1 << MSTR) | (1 << DORD);
     pinMode(25, PIN_OUTPUT);
     pinMode(23, PIN_OUTPUT);
     SREG = sreg;

@@ -5,6 +5,10 @@
 #include "spi.h"
 #include "stdlib.h"
 #include "serial.h"
+#include "util.h"
+
+#define PI 3.14159265
+#define RAD_TO_PI 0.017453229
 
 #define DMD_nOE 21
 #define DMD_B 46
@@ -68,15 +72,20 @@ typedef struct {
     byte x;
     byte y;
 } Point;
+Point point(byte x, byte y);
 
 void flush_data(byte cycleNum);
 
 void init_dmd();
 Display* create_display();
 void send_display(Display* d);
-void print_display(Display* d);
-void set_intensity(Display* d, Point p, byte val);
-
-Point point(byte x, byte y);
+void print_display(Display *d);
+void set_intensity(Display *d, Point p, byte val);
+byte get_intensity(Display *d, Point p);
+void draw_line(Display *d, Point p1, Point p2);
+void draw_point(Display *d, Point p, int radius);
+void draw_circle(Display *d, Point p, int radius);
+void draw_rect(Display *d, Point p1, Point p2);
+void draw_char(Display *d, Point p, int height, char c);
 
 #endif

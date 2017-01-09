@@ -17,7 +17,7 @@ tester:
 	./test
 
 hex:
-	avr-gcc -g -std=gnu99 -mmcu=atmega328p $(SOURCES) $(MEGASOURCES) -o project.elf
+	avr-gcc -g -std=gnu99 -mmcu=atmega328p $(SOURCES) $(MEGASOURCES) -o project.elf -Wl,-u,vfprintf -lprintf_flt
 	avr-objcopy -j .text -j .data -O ihex project.elf project.hex
 
 flash:
