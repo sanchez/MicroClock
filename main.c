@@ -15,7 +15,7 @@ int main() {
     // print_display(test);
     printf("Created\n");
     send_display(test);
-    draw_string(test, point(0, 0), 6, "12:34");
+    draw_string(test, point(0, 0), 5, "Z");
     // set_intensity(test, point(0, 0), DISPLAY_ON);
 
     while (1) {

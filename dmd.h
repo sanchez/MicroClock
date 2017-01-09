@@ -6,6 +6,7 @@
 #include "stdlib.h"
 #include "serial.h"
 #include "util.h"
+#include <string.h>
 
 #define PI 3.14159265
 #define RAD_TO_PI 0.017453229
@@ -27,45 +28,45 @@
 #define ROW2 8
 #define ROW3 12
 
-#define LETTER_0 0xE5294E
-#define LETTER_1 0x46108E
+#define LETTER_0 0x1ca529c
+#define LETTER_1 0x8c211c
 #define LETTER_2 0xE8899F
-#define LETTER_3 0xC1304C
-#define LETTER_4 0xA53842
-#define LETTER_5 0xE4304C
-#define LETTER_6 0x64394E
-#define LETTER_7 0xE10884
-#define LETTER_8 0xE5394E
-#define LETTER_9 0xE51842
+#define LETTER_3 0x1826098
+#define LETTER_4 0x14a7084
+#define LETTER_5 0x1c86098
+#define LETTER_6 0xc8729c
+#define LETTER_7 0x1c21108
+#define LETTER_8 0x1ca729c
+#define LETTER_9 0x1ca3084
 #define LETTER_A 0x453A31
 #define LETTER_B 0x1C9725C
-#define LETTER_C 0x642106
-#define LETTER_D 0xE4A52E
-#define LETTER_E 0xE4390E
-#define LETTER_F 0xE43908
-#define LETTER_G 0x322127
-#define LETTER_H 0xA5394A
-#define LETTER_I 0xE2108E
-#define LETTER_J 0xF1084C
-#define LETTER_K 0x953149
-#define LETTER_L 0x84210E
+#define LETTER_C 0xC8420C
+#define LETTER_D 0x1C94A5C
+#define LETTER_E 0x1C8721C
+#define LETTER_F 0x1C87210
+#define LETTER_G 0x64424E
+#define LETTER_H 0x1297A52
+#define LETTER_I 0x1C4211C
+#define LETTER_J 0x1E21098
+#define LETTER_K 0x12A6292
+#define LETTER_L 0x108421C
 #define LETTER_M 0x11DEEB5
 #define LETTER_N 0x11CD671
-#define LETTER_O 0x476DC4
-#define LETTER_P 0xE4B908
+#define LETTER_O 0xE8C62E
+#define LETTER_P 0x1C97210
 #define LETTER_Q 0x476DC5
-#define LETTER_R 0xE4B949
+#define LETTER_R 0x1C97292
 #define LETTER_S 0xE8382E
 #define LETTER_T 0x1F21084
-#define LETTER_U 0x118C544
+#define LETTER_U 0x118C62E
 #define LETTER_V 0x118A944
 #define LETTER_W 0x15AEF71
 #define LETTER_X 0x1151151
 #define LETTER_Y 0x1151084
 #define LETTER_Z 0x1F1111F
 
-unsigned long characterList[58];
-byte characterWidth[58];
+unsigned long characterList[60];
+byte characterWidth[60];
 
 typedef struct {
     byte **matrix;
@@ -90,5 +91,6 @@ void draw_point(Display *d, Point p, int radius);
 void draw_circle(Display *d, Point p, int radius);
 void draw_rect(Display *d, Point p1, Point p2);
 void draw_char(Display *d, Point p, int height, char c);
+void draw_string(Display *d, Point p, int height, char *str);
 
 #endif

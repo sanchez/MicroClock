@@ -79,16 +79,16 @@ byte characterWidth[] = {
     3, // -
     3, // .
     3, // /
-    5, // 0
-    5, // 1
+    3, // 0
+    3, // 1
     5, // 2
-    5, // 3
-    5, // 4
-    5, // 5
-    5, // 6
-    5, // 7
-    5, // 8
-    5, // 9
+    3, // 3
+    3, // 4
+    3, // 5
+    3, // 6
+    3, // 7
+    3, // 8
+    3, // 9
     3, // :
     3, // ;
     3, // <
@@ -97,23 +97,23 @@ byte characterWidth[] = {
     3, // ?
     3, // @
     5, // A
-    5, // B
-    5, // C
-    5, // D
-    5, // E
-    5, // F
-    5, // G
-    5, // H
-    5, // I
-    5, // J
-    5, // K
-    5, // L
+    4, // B
+    3, // C
+    4, // D
+    3, // E
+    3, // F
+    4, // G
+    4, // H
+    3, // I
+    4, // J
+    4, // K
+    3, // L
     5, // M
     5, // N
     5, // O
-    5, // P
+    4, // P
     5, // Q
-    5, // R
+    4, // R
     5, // S
     5, // T
     5, // U
@@ -121,7 +121,7 @@ byte characterWidth[] = {
     5, // W
     5, // X
     5, // Y
-    5, // Z
+    5  // Z
 };
 
 Point point(byte x, byte y) {
@@ -264,12 +264,22 @@ void draw_rect(Display *d, Point p1, Point p2) {
 }
 
 unsigned long get_letter(char c) {
-    if (c >= 32 || c <= 90) {
+    if (c >= 32 && c <= 90) {
         return characterList[c - 32];
     } else if (c >= 'a' && c <= 'z') {
         return get_letter(c - 32);
     } else {
         return 0;
+    }
+}
+
+byte get_letter_width(char c) {
+    if (c >= 32 && c <= 90) {
+        return characterWidth[c - 32];
+    } else if (c >= 'a' && c <= 'z') {
+        return get_letter_width(c - 32);
+    } else {
+        return 3;
     }
 }
 
@@ -284,8 +294,9 @@ void draw_char(Display *d, Point p, int height, char c) {
     unsigned long l = get_letter(c);
     float scale = 5.0/height;
     float k = 24;
+    byte charWidth = get_letter_width(c) * height / 5;
     for (int i = 0; i < height; i++) {
-        for (int j = 0; j < height; j++) {
+        for (int j = 0; j < charWidth; j++) {
             byte bit = get_bit_position(floor(j * scale), floor(i * scale), l);
             set_intensity(d, point(j + p.x, i + p.y), !bit);
             k -= scale;
@@ -295,7 +306,10 @@ void draw_char(Display *d, Point p, int height, char c) {
 
 void draw_string(Display *d, Point p, int height, char *str) {
     int len = strlen(str);
+    byte posX = p.x;
     for (int i = 0; i < len; i++) {
-        draw_char(d, point(height * i + p.x + 1, p.y), height, str[i]);
+        draw_char(d, point(posX, p.y), height, str[i]);
+        byte charWidth = get_letter_width(str[i]);
+        posX += 1 + charWidth * height / 5;
     }
 }
