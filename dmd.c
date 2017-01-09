@@ -1,5 +1,129 @@
 #include "dmd.h"
 
+unsigned long characterList[] = {
+    0, // SPACE
+    0, // !
+    0, // "
+    0, // #
+    0, // $
+    0, // %
+    0, // &
+    0, // '
+    0, // (
+    0, // )
+    0, // *
+    0, // +
+    0, // ,
+    0, // -
+    0, // .
+    0, // /
+    LETTER_0, // 0
+    LETTER_1, // 1
+    LETTER_2,
+    LETTER_3,
+    LETTER_4,
+    LETTER_5,
+    LETTER_6,
+    LETTER_7,
+    LETTER_8,
+    LETTER_9,
+    0, // :
+    0, // ;
+    0, // <
+    0, // =
+    0, // >
+    0, // ?
+    0, // @
+    LETTER_A,
+    LETTER_B,
+    LETTER_C,
+    LETTER_D,
+    LETTER_E,
+    LETTER_F,
+    LETTER_G,
+    LETTER_H,
+    LETTER_I,
+    LETTER_J,
+    LETTER_K,
+    LETTER_L,
+    LETTER_M,
+    LETTER_N,
+    LETTER_O,
+    LETTER_P,
+    LETTER_Q,
+    LETTER_R,
+    LETTER_S,
+    LETTER_T,
+    LETTER_U,
+    LETTER_V,
+    LETTER_W,
+    LETTER_X,
+    LETTER_Y,
+    LETTER_Z
+};
+
+byte characterWidth[] = {
+    3, // SPACE
+    3, // !
+    3, // "
+    3, // #
+    3, // $
+    3, // %
+    3, // &
+    3, // '
+    3, // (
+    3, // )
+    3, // *
+    3, // +
+    3, // ,
+    3, // -
+    3, // .
+    3, // /
+    5, // 0
+    5, // 1
+    5, // 2
+    5, // 3
+    5, // 4
+    5, // 5
+    5, // 6
+    5, // 7
+    5, // 8
+    5, // 9
+    3, // :
+    3, // ;
+    3, // <
+    3, // =
+    3, // >
+    3, // ?
+    3, // @
+    5, // A
+    5, // B
+    5, // C
+    5, // D
+    5, // E
+    5, // F
+    5, // G
+    5, // H
+    5, // I
+    5, // J
+    5, // K
+    5, // L
+    5, // M
+    5, // N
+    5, // O
+    5, // P
+    5, // Q
+    5, // R
+    5, // S
+    5, // T
+    5, // U
+    5, // V
+    5, // W
+    5, // X
+    5, // Y
+    5, // Z
+};
+
 Point point(byte x, byte y) {
     Point p;
     p.x = x;
@@ -140,80 +264,10 @@ void draw_rect(Display *d, Point p1, Point p2) {
 }
 
 unsigned long get_letter(char c) {
-    if (c == 'A' || c == 'a') {
-        return LETTER_A;
-    } else if (c == 'B' || c == 'b') {
-        return LETTER_B;
-    } else if (c == 'C' || c == 'c') {
-        return LETTER_C;
-    } else if (c == 'D' || c == 'd') {
-        return LETTER_D;
-    } else if (c == 'E' || c == 'e') {
-        return LETTER_E;
-    } else if (c == 'F' || c == 'f') {
-        return LETTER_F;
-    } else if (c == 'G' || c == 'g') {
-        return LETTER_G;
-    } else if (c == 'H' || c == 'h') {
-        return LETTER_H;
-    } else if (c == 'I' || c == 'i') {
-        return LETTER_I;
-    } else if (c == 'J' || c == 'j') {
-        return LETTER_J;
-    } else if (c == 'K' || c == 'k') {
-        return LETTER_K;
-    } else if (c == 'L' || c == 'l') {
-        return LETTER_L;
-    } else if (c == 'M' || c == 'm') {
-        return LETTER_M;
-    } else if (c == 'N' || c == 'n') {
-        return LETTER_N;
-    } else if (c == 'O' || c == 'o') {
-        return LETTER_O;
-    } else if (c == 'P' || c == 'p') {
-        return LETTER_P;
-    } else if (c == 'Q' || c == 'q') {
-        return LETTER_Q;
-    } else if (c == 'R' || c == 'r') {
-        return LETTER_R;
-    } else if (c == 'S' || c == 's') {
-        return LETTER_S;
-    } else if (c == 'T' || c == 't') {
-        return LETTER_T;
-    } else if (c == 'U' || c == 'u') {
-        return LETTER_U;
-    } else if (c == 'V' || c == 'v') {
-        return LETTER_V;
-    } else if (c == 'W' || c == 'w') {
-        return LETTER_W;
-    } else if (c == 'X' || c == 'x') {
-        return LETTER_X;
-    } else if (c == 'Y' || c == 'y') {
-        return LETTER_Y;
-    } else if (c == 'Z' || c == 'z') {
-        return LETTER_Z;
-    } else if (c == '1') {
-        return LETTER_1;
-    } else if (c == '2') {
-        return LETTER_2;
-    } else if (c == '3') {
-        return LETTER_3;
-    } else if (c == '4') {
-        return LETTER_4;
-    } else if (c == '5') {
-        return LETTER_5;
-    } else if (c == '6') {
-        return LETTER_6;
-    } else if (c == '7') {
-        return LETTER_7;
-    } else if (c == '8') {
-        return LETTER_8;
-    } else if (c == '9') {
-        return LETTER_9;
-    } else if (c == '0') {
-        return LETTER_0;
-    } else if (c == ' ') {
-        return 0;
+    if (c >= 32 || c <= 90) {
+        return characterList[c - 32];
+    } else if (c >= 'a' && c <= 'z') {
+        return get_letter(c - 32);
     } else {
         return 0;
     }

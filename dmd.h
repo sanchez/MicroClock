@@ -64,6 +64,9 @@
 #define LETTER_Y 0x1151084
 #define LETTER_Z 0x1F1111F
 
+unsigned long characterList[58];
+byte characterWidth[58];
+
 typedef struct {
     byte **matrix;
 } Display;
