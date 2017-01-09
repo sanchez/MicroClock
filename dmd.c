@@ -27,7 +27,7 @@ unsigned long characterList[] = {
     LETTER_7,
     LETTER_8,
     LETTER_9,
-    0, // :
+    LETTER_COLON, // :
     0, // ;
     0, // <
     0, // =
@@ -63,7 +63,7 @@ unsigned long characterList[] = {
 };
 
 byte characterWidth[] = {
-    3, // SPACE
+    2, // SPACE
     3, // !
     3, // "
     3, // #
@@ -89,7 +89,7 @@ byte characterWidth[] = {
     3, // 7
     3, // 8
     3, // 9
-    3, // :
+    1, // :
     3, // ;
     3, // <
     3, // =

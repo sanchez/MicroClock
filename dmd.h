@@ -64,6 +64,7 @@
 #define LETTER_X 0x1151151
 #define LETTER_Y 0x1151084
 #define LETTER_Z 0x1F1111F
+#define LETTER_COLON 0x80200
 
 unsigned long characterList[60];
 byte characterWidth[60];
