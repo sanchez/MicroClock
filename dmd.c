@@ -1,5 +1,13 @@
 #include "dmd.h"
 
+void timer1_func() {
+    send_display(currentDisplay);
+}
+
+void set_current_display(Display *d) {
+    currentDisplay = d;
+}
+
 unsigned long characterList[] = {
     0, // SPACE
     0, // !
@@ -207,7 +215,7 @@ byte get_intensity(Display *d, Point p) {
     return d->matrix[y][xByte] &= (1 << xSub);
 }
 
-void draw_line(Display *d, Point p1, Point p2) {
+void draw_line(Display *d, Point p1, Point p2, byte val) {
     float depth = 0.0;
     signed char dx = p2.x - p1.x;
     signed char dy = p2.y - p1.y;
@@ -226,15 +234,15 @@ void draw_line(Display *d, Point p1, Point p2) {
     float stepY = dy / depth;
     float posX = p1.x;
     float posY = p1.y;
-    set_intensity(d, point(posX, posY), DISPLAY_ON);
+    set_intensity(d, point(posX, posY), val);
     for (int i = 0; i < depth; i++) {
         posX += stepX;
         posY += stepY;
-        set_intensity(d, point(round(posX), round(posY)), DISPLAY_ON);
+        set_intensity(d, point(round(posX), round(posY)), val);
     }
 }
 
-void draw_point(Display *d, Point p, int radius) {
+void draw_point(Display *d, Point p, int radius, byte val) {
     for (int i = 0; i < 360; i++) {
         float rad = i * RAD_TO_PI;
         float x = cos(rad);
@@ -242,25 +250,37 @@ void draw_point(Display *d, Point p, int radius) {
         for (int i = 0; i < radius; i++) {
             float tempX = i * x + p.x;
             float tempY = i * y + p.y;
-           set_intensity(d, point(round(tempX), round(tempY)), DISPLAY_ON);
+           set_intensity(d, point(round(tempX), round(tempY)), val);
         }
     }
 }
 
-void draw_circle(Display *d, Point p, int radius) {
+void draw_circle(Display *d, Point p, int radius, byte val) {
     for (int i = 0; i < 360; i++) {
         float rad = i * RAD_TO_PI;
         float x = radius * cos(rad) + p.x;
         float y = radius * sin(rad) + p.y;
-        set_intensity(d, point(round(x), round(y)), DISPLAY_ON);
+        set_intensity(d, point(round(x), round(y)), val);
     }
 }
 
-void draw_rect(Display *d, Point p1, Point p2) {
-    draw_line(d, point(p1.x, p1.y), point(p2.x, p1.y));
-    draw_line(d, point(p2.x, p1.y), point(p2.x, p2.y));
-    draw_line(d, point(p2.x, p2.y), point(p1.x, p2.y));
-    draw_line(d, point(p1.x, p2.y), point(p1.x, p1.y));
+void draw_rect(Display *d, Point p1, Point p2, byte val) {
+    signed char stepX = p2.x - p1.x;
+    signed char stepY = p2.y - p1.y;
+    stepX = stepX / absolute(stepX);
+    stepY = stepY / absolute(stepY);
+    for (int i = p1.x; i != p2.x; i += stepX) {
+        for (int j = p1.y; j != p2.y; j += stepY) {
+            set_intensity(d, point(i, j), val);
+        }
+    }
+}
+
+void draw_box(Display *d, Point p1, Point p2, byte val) {
+    draw_line(d, point(p1.x, p1.y), point(p2.x, p1.y), val);
+    draw_line(d, point(p2.x, p1.y), point(p2.x, p2.y), val);
+    draw_line(d, point(p2.x, p2.y), point(p1.x, p2.y), val);
+    draw_line(d, point(p1.x, p2.y), point(p1.x, p1.y), val);
 }
 
 unsigned long get_letter(char c) {
@@ -310,6 +330,18 @@ void draw_string(Display *d, Point p, int height, char *str) {
     for (int i = 0; i < len; i++) {
         draw_char(d, point(posX, p.y), height, str[i]);
         byte charWidth = get_letter_width(str[i]);
-        posX += 1 + charWidth * height / 5;
+        posX += charWidth * height / 5;
+        for (int j = 0; j < height; j++) {
+            set_intensity(d, point(posX, j + p.y), DISPLAY_OFF);
+        }
+        posX += 1;
+    }
+}
+
+void clear_display(Display *d, byte val) {
+    for (int i = 0; i < DISPLAY_WIDTH; i++) {
+        for (int j = 0; j < DISPLAY_HEIGHT; j++) {
+            set_intensity(d, point(i, j), val);
+        }
     }
 }

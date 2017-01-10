@@ -72,6 +72,7 @@ byte characterWidth[60];
 typedef struct {
     byte **matrix;
 } Display;
+Display *currentDisplay;
 
 typedef struct {
     byte x;
@@ -83,15 +84,18 @@ void flush_data(byte cycleNum);
 
 void init_dmd();
 Display* create_display();
+void set_current_display(Display *d);
 void send_display(Display* d);
 void print_display(Display *d);
 void set_intensity(Display *d, Point p, byte val);
 byte get_intensity(Display *d, Point p);
-void draw_line(Display *d, Point p1, Point p2);
-void draw_point(Display *d, Point p, int radius);
-void draw_circle(Display *d, Point p, int radius);
-void draw_rect(Display *d, Point p1, Point p2);
+void draw_line(Display *d, Point p1, Point p2, byte val);
+void draw_point(Display *d, Point p, int radius, byte val);
+void draw_circle(Display *d, Point p, int radius, byte val);
+void draw_rect(Display *d, Point p1, Point p2, byte val);
+void draw_box(Display *d, Point p1, Point p2, byte val);
 void draw_char(Display *d, Point p, int height, char c);
 void draw_string(Display *d, Point p, int height, char *str);
+void clear_display(Display *d, byte val);
 
 #endif
