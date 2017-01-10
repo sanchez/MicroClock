@@ -13,7 +13,7 @@ void init_timers() {
 
     // millis timer
     clock_ticks = 0;
-    OCR0A = 124;
+    OCR0A = 249;
     TCCR0A = (1 << WGM01);
     TCCR0B = (1 << CS01) | (1 << CS00);
     TIMSK0 = (1 << 1);
