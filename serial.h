@@ -7,6 +7,8 @@
 #include <stdint.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "util.h"
+#include "print.h"
 
 typedef struct LinkedBuffer {
     char c;
@@ -19,5 +21,8 @@ volatile LinkedBuffer *in_buffer;
 void init_uart(unsigned long baudrate);
 void uart_putchar(char c, FILE *stream);
 char uart_getchar(FILE *stream);
+byte uart_available();
+void uart_display();
+void uart_display_init();
 
 #endif
