@@ -17,7 +17,7 @@ int main() {
 
     while (1) {
         char timeStr[80];
-        sprintf(timeStr, "%02d:%02d  ", getHours(), getMinutes());
+        sprintf(timeStr, "%02d:%02d  ", getMinutes(), getSeconds());
         draw_string(test, point(1, 0), 10, timeStr);
     }
 }
