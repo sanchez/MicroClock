@@ -18,9 +18,12 @@ volatile unsigned long clock_ticks;
 
 unsigned long millis();
 void init_timers();
+void timer1_func();
 
 void delay(unsigned int period);
 
 byte get_bit(unsigned long l, byte pos);
+
+signed char absolute(signed char val);
 
 #endif
