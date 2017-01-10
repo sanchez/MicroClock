@@ -30,7 +30,7 @@
 
 #define LETTER_0 0x1ca529c
 #define LETTER_1 0x8c211c
-#define LETTER_2 0xE8899F
+#define LETTER_2 0x8A111C
 #define LETTER_3 0x1826098
 #define LETTER_4 0x14a7084
 #define LETTER_5 0x1c86098
