@@ -2,6 +2,7 @@
 #include "serial.h"
 #include "util.h"
 #include "dmd.h"
+#include "time.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,15 +13,11 @@ int main() {
     printf("Hello World\n");
 
     Display* test = create_display();
-    // print_display(test);
-    printf("Created\n");
-    send_display(test);
-    draw_string(test, point(0, 0), 5, "1:2 3:4");
-    // set_intensity(test, point(0, 0), DISPLAY_ON);
+    set_current_display(test);
 
     while (1) {
-        // delay(500);
-        //printf("Looping\n");
-        send_display(test);
+        char timeStr[80];
+        sprintf(timeStr, "%02d:%02d  ", getHours(), getMinutes());
+        draw_string(test, point(1, 0), 10, timeStr);
     }
 }
