@@ -2,8 +2,8 @@
 #include "serial.h"
 #include "util.h"
 #include "dmd.h"
-#include "time.h"
 #include "i2c.h"
+#include "rtc.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -35,32 +35,16 @@ int main() {
     Display* test = create_display();
     set_current_display(test);
 
-    i2c_start(0x68 << 1);
-    i2c_write(0x00);
-    i2c_stop();
-
-    printf("Here\n");
-
-    i2c_start((0x68 << 1) + 1);
-    byte value = fromBCD(i2c_read());
-    i2c_stop();
-
-    printf("Val: %d\n", value);
-
     while (1) {
         uart_display();
 
-        i2c_start(0x68 << 1);
-        i2c_write(0x00);
-        i2c_stop();
-        i2c_start((0x68 << 1) + 1);
-        byte value = fromBCD(i2c_read());
-        byte minute = fromBCD(i2c_read());
-        byte hour = fromHourBCD(i2c_read());
-        i2c_stop();
+        Time t = get_time();
 
         char timeStr[80];
-        sprintf(timeStr, "%02d:%02d  ", hour, minute);
+        sprintf(timeStr, "%02d:%02d", t.hour, t.min);
         draw_string(test, point(1, 0), 10, timeStr);
+        char dateStr[80];
+        sprintf(dateStr, "%2d/%d", t.date, t.month);
+        draw_string(test, point(16, 11), 5, dateStr);
     }
 }
