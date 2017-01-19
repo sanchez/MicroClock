@@ -24,7 +24,7 @@ unsigned long characterList[] = {
     0, // ,
     0, // -
     0, // .
-    0, // /
+    LETTER_SLASH, // /
     LETTER_0, // 0
     LETTER_1, // 1
     LETTER_2,
