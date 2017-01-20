@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define LIGHT_CUTOFF 35
+
 int main() {
     init_adc();
     init_timers();
@@ -20,7 +22,8 @@ int main() {
     printf("Hello World\n");
 
     Display* test = create_display();
-    set_current_display(test);
+    Display* blank = create_display();
+    set_current_display(blank);
 
     while (1) {
         uart_display();
@@ -39,13 +42,14 @@ int main() {
         draw_string(test, point(29, 0), 5, dateUpper);
         draw_string(test, point(29, 5), 5, dateLower);
 
-        char lightReading[20];
-        sprintf(lightReading, "%2d", get_pir());
-        draw_string(test, point(25, 11), 5, lightReading);
-        // printf("%d\n", read_adc(A0));
-
         char dateStr[20];
         sprintf(dateStr, "%2d/%2d", t.date, t.month);
         draw_string(test, point(0, 11), 5, dateStr);
+
+        if ((get_light() >= LIGHT_CUTOFF) || get_pir()) {
+            set_current_display(test);
+        } else {
+            set_current_display(blank);
+        }
     }
 }
