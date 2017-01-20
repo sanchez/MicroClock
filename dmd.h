@@ -99,4 +99,6 @@ void draw_char(Display *d, Point p, int height, char c);
 void draw_string(Display *d, Point p, int height, char *str);
 void clear_display(Display *d, byte val);
 
+void set_display_intensity(byte val);
+
 #endif

@@ -22,8 +22,8 @@ void init_timers() {
 
     // display timer
     TCCR2A = 0;
-    TCCR2B = (1 << CS22) | (1 << CS22) | (1 << CS22);
-    OCR2A = 12;
+    TCCR2B = (1 << CS22) | (1 << CS21) | (0 << CS20);
+    OCR2A = 255;
     TIMSK2 = (1 << 1);
     TCNT2 = 0;
     sei();

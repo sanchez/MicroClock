@@ -145,15 +145,24 @@ void init_dmd() {
     pinMode(DMD_A, PIN_OUTPUT);
     pinMode(DMD_B, PIN_OUTPUT);
     pinMode(DMD_SCLK, PIN_OUTPUT);
+
+    // TCCR1A |= (1 << COM1A1) | (1 << WGM10);
+    // TCCR1B |= (1 << CS10) | (1 << WGM12);
+}
+
+void set_display_intensity(byte val) {
+    // OCR1A = val;
 }
 
 void flush_data(byte cycleNum) {
+    // set_display_intensity(0);
     setPin(DMD_nOE, PIN_LOW);
     setPin(DMD_SCLK, PIN_HIGH);
     setPin(DMD_SCLK, PIN_LOW);
     setPin(DMD_A, cycleNum & 1);
     setPin(DMD_B, cycleNum & 2);
     setPin(DMD_nOE, PIN_HIGH);
+    // set_display_intensity(50);
 }
 
 void send_row_group(Display *d, byte offset) {
@@ -178,10 +187,15 @@ Display* create_display() {
     return d;
 }
 
+byte scanPos = 0;
 void send_display(Display *d) {
-    for (int i = 0; i < 4; i++) {
-        send_row_group(d, i);
-    }
+    // for (int i = 0; i < 4; i++) {
+    //     send_row_group(d, i);
+    // }
+    send_row_group(d, scanPos);
+    scanPos++;
+    if (scanPos == 4)
+        scanPos = 0;
 }
 
 void print_display(Display *d) {
