@@ -51,7 +51,7 @@ byte getPin(byte pin) {
     byte regNum = pin / 10;
     byte result = 0;
     volatile byte *out = pin_to_register[regNum];
-    result = (*out) * (1 << bit);
+    result = (*out) & (1 << bit);
     if (result) {
         return 1;
     } else {

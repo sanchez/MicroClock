@@ -15,6 +15,7 @@ int main() {
     init_dmd();
     uart_display_init();
     i2c_init();
+    init_sensors();
 
     printf("Hello World\n");
 
@@ -39,8 +40,12 @@ int main() {
         draw_string(test, point(29, 5), 5, dateLower);
 
         char lightReading[20];
-        sprintf(lightReading, "%2d", get_light());
+        sprintf(lightReading, "%2d", get_pir());
         draw_string(test, point(25, 11), 5, lightReading);
         // printf("%d\n", read_adc(A0));
+
+        char dateStr[20];
+        sprintf(dateStr, "%2d/%2d", t.date, t.month);
+        draw_string(test, point(0, 11), 5, dateStr);
     }
 }

@@ -20,3 +20,13 @@ int get_rtc_temp() {
 
     return temp;
 }
+
+void init_sensors() {
+    pinMode(PIR_PIN, PIN_INPUT);
+}
+
+byte get_pir() {
+    // setPin(PIR_PIN, PIN_HIGH);
+    // return 0;
+    return getPin(PIR_PIN);
+}
