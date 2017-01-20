@@ -39,8 +39,8 @@ int main() {
         draw_string(test, point(29, 5), 5, dateLower);
 
         char lightReading[20];
-        sprintf(lightReading, "%2d-%2d", get_temp(), get_rtc_temp());
-        draw_string(test, point(0, 11), 5, lightReading);
+        sprintf(lightReading, "%2d", get_light());
+        draw_string(test, point(25, 11), 5, lightReading);
         // printf("%d\n", read_adc(A0));
     }
 }
