@@ -314,7 +314,7 @@ void draw_char(Display *d, Point p, int height, char c) {
     unsigned long l = get_letter(c);
     float scale = 5.0/height;
     float k = 24;
-    byte charWidth = get_letter_width(c) * height / 5;
+    int charWidth = ceil(get_letter_width(c) * height / 5.0);
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < charWidth; j++) {
             byte bit = get_bit_position(floor(j * scale), floor(i * scale), l);
@@ -330,7 +330,7 @@ void draw_string(Display *d, Point p, int height, char *str) {
     for (int i = 0; i < len; i++) {
         draw_char(d, point(posX, p.y), height, str[i]);
         byte charWidth = get_letter_width(str[i]);
-        posX += charWidth * height / 5;
+        posX += ceil(charWidth * height / 5.0);
         for (int j = 0; j < height; j++) {
             set_intensity(d, point(posX, j + p.y), DISPLAY_OFF);
         }
