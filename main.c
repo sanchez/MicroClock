@@ -40,11 +40,16 @@ int main() {
 
         Time t = get_time();
 
-        char timeStr[80];
-        sprintf(timeStr, "%02d:%02d", t.hour, t.min);
-        draw_string(test, point(1, 0), 10, timeStr);
-        char dateStr[80];
-        sprintf(dateStr, "%2d/%d", t.date, t.month);
-        draw_string(test, point(16, 11), 5, dateStr);
+        //clear_display(test, DISPLAY_OFF);
+
+        char timeStr[20];
+        sprintf(timeStr, "%2d%02d", t.hour, t.min);
+        draw_string(test, point(0, 0), 10, timeStr);
+        char dateUpper[3];
+        sprintf(dateUpper, "%d", t.sec / 10);
+        char dateLower[3];
+        sprintf(dateLower, "%d", t.sec % 10);
+        draw_string(test, point(29, 0), 5, dateUpper);
+        draw_string(test, point(29, 5), 5, dateLower);
     }
 }
