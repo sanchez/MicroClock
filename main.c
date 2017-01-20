@@ -7,28 +7,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-byte fromBCD(byte val) {
-    return (val >> 4) * 10 + (val & 0x0F);
-}
-
-byte fromHourBCD(byte val) {
-    if ((val & 0x40) != 0) {
-        byte result = ((val >> 4) & 1) * 10 + (val & 0x0F);
-        if ((val & 0x20) != 0)
-            return (result == 12) ? 12 : (result + 12);
-        else
-            return (result == 12) ? 0 : result;
-    } else {
-        return fromBCD(val);
-    }
-}
-
 int main() {
     init_timers();
     init_uart(19200);
     init_dmd();
     uart_display_init();
     i2c_init();
+    init_adc();
 
     printf("Hello World\n");
 
