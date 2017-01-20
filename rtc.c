@@ -63,5 +63,7 @@ Time get_time() {
     t.month = convert_month(i2c_read());
     t.year = convert_year(i2c_read());
 
+    i2c_stop();
+
     return t;
 }

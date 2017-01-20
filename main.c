@@ -4,16 +4,17 @@
 #include "dmd.h"
 #include "i2c.h"
 #include "rtc.h"
+#include "sensors.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 int main() {
+    init_adc();
     init_timers();
     init_uart(19200);
     init_dmd();
     uart_display_init();
     i2c_init();
-    init_adc();
 
     printf("Hello World\n");
 
@@ -36,5 +37,10 @@ int main() {
         sprintf(dateLower, "%d", t.sec % 10);
         draw_string(test, point(29, 0), 5, dateUpper);
         draw_string(test, point(29, 5), 5, dateLower);
+
+        char lightReading[20];
+        sprintf(lightReading, "%2d-%2d", get_temp(), get_rtc_temp());
+        draw_string(test, point(0, 11), 5, lightReading);
+        // printf("%d\n", read_adc(A0));
     }
 }
