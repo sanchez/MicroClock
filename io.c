@@ -60,13 +60,12 @@ byte getPin(byte pin) {
 }
 
 void init_adc() {
-    ADCSRA = (1 << ADEN);
+    ADMUX |= (1 << REFS0);
+    ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);
 }
 
 unsigned int read_adc(byte addr) {
-    ADMUX = (addr & 0x0F);
-    ADCSRA |= (1 << ADPS1) | (1 << ADPS2) | (1 << ADPS2);
-
+    ADMUX = (ADMUX & 0xF0) | (addr & 0x0F);
     ADCSRA |= (1 << ADSC);
     while (ADCSRA & (1 << ADSC));
     return ADC;
