@@ -21,11 +21,11 @@ void init_timers() {
     TCNT0 = 0;
 
     // display timer
-    TCCR1A = 0;
-    TCCR1B = (1 << WGM12) | (1 << CS11) | (1 << CS10);
-    OCR1A = 200;
-    TIMSK1 = (1 << 1);
-    TCNT1 = 0;
+    TCCR2A = 0;
+    TCCR2B = (1 << CS22) | (1 << CS22) | (1 << CS22);
+    OCR2A = 12;
+    TIMSK2 = (1 << 1);
+    TCNT2 = 0;
     sei();
 }
 
@@ -33,8 +33,8 @@ ISR(TIMER0_COMPA_vect) {
     clock_ticks++;
 }
 
-ISR(TIMER1_COMPA_vect) {
-    timer1_func();
+ISR(TIMER2_COMPA_vect) {
+    timer2_func();
 }
 
 void delay(unsigned int period) {

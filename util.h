@@ -18,7 +18,7 @@ volatile unsigned long clock_ticks;
 
 unsigned long millis();
 void init_timers();
-void timer1_func();
+void timer2_func();
 
 void delay(unsigned int period);
 

@@ -1,6 +1,6 @@
 #include "dmd.h"
 
-void timer1_func() {
+void timer2_func() {
     send_display(currentDisplay);
 }
 
