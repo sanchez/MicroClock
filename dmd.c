@@ -4,7 +4,38 @@ void timer2_func() {
     send_display(currentDisplay);
 }
 
+void set_display_animation(byte ani) {
+    animationCode = ani;
+}
+
+void fade_display() {
+    copy_display(transitionDisplay, oldDisplay);
+    for (int i = 0; i < DISPLAY_WIDTH; i++) {
+        for (int j = 0; j < DISPLAY_HEIGHT; j++) {
+            set_intensity(transitionDisplay, point(i, j), get_intensity(newDisplay, point(i, j)));
+        }
+        delay(50);
+    }
+}
+
 void set_current_display(Display *d) {
+    oldDisplay = currentDisplay;
+    newDisplay = d;
+
+    if (transitionDisplay != NULL) {
+        clear_display(transitionDisplay, DISPLAY_OFF);
+    } else {
+        transitionDisplay = create_display();
+    }
+    currentDisplay = transitionDisplay;
+
+    switch(animationCode) {
+        case ANIMATION_DEFAULT:
+            break;
+        case ANIMATION_FADE:
+            fade_display();
+            break;
+    }
     currentDisplay = d;
 }
 
@@ -187,6 +218,22 @@ Display* create_display() {
     return d;
 }
 
+void copy_display(Display* d1, Display* d2) {
+    for (int i = 0; i < DISPLAY_WIDTH; i++) {
+        for (int j = 0; j < DISPLAY_HEIGHT; j++) {
+            set_intensity(d1, point(i, j), get_intensity(d2, point(i, j)));
+        }
+    }
+}
+
+void delete_display(Display* d) {
+    for (int i = 0; i < DISPLAY_HEIGHT; i++) {
+        free(d->matrix[i]);
+    }
+    free(d->matrix);
+    free(d);
+}
+
 byte scanPos = 0;
 void send_display(Display *d) {
     // for (int i = 0; i < 4; i++) {
@@ -201,8 +248,12 @@ void send_display(Display *d) {
 void print_display(Display *d) {
     printf("DISPLAY:\n");
     for (int i = 0; i < DISPLAY_HEIGHT; i++) {
-        for (int j = 0; j < DISPLAY_STORED_WIDTH; j++) {
-            printf("%d ", d->matrix[i][j]);
+        for (int j = 0; j < DISPLAY_WIDTH; j++) {
+            // printf("%d ", d->matrix[i][j]);
+            if (get_intensity(d, point(j, i)))
+                printf("0");
+            else
+                printf("1");
         }
         printf("\n");
     }
@@ -223,10 +274,14 @@ void set_intensity(Display *d, Point p, byte val) {
 }
 
 byte get_intensity(Display *d, Point p) {
-    int y = p.y;
-    int xByte = p.x / 8;
-    int xSub = p.x % 8;
-    return d->matrix[y][xByte] &= (1 << xSub);
+    if (p.x < 0 || p.x >= DISPLAY_WIDTH || p.y < 0 || p.y >= DISPLAY_HEIGHT) {
+        printf("Overflow: %d %d\n", p.x, p.y);
+        return 1;
+    }
+    byte y = p.y;
+    byte xByte = p.x / 8;
+    byte xSub = p.x % 8;
+    return (d->matrix[y][xByte] & (1 << xSub));
 }
 
 void draw_line(Display *d, Point p1, Point p2, byte val) {

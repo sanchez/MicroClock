@@ -23,7 +23,13 @@ int main() {
 
     Display* test = create_display();
     Display* blank = create_display();
-    set_current_display(blank);
+    Display* hello = create_display();
+    set_current_display(hello);
+    draw_string(hello, point(0, 0), 5, "Hello");
+    set_display_animation(ANIMATION_FADE);
+    delay(1000);
+
+    byte lightsOn = 0;
 
     while (1) {
         uart_display();
@@ -47,9 +53,15 @@ int main() {
         draw_string(test, point(0, 11), 5, dateStr);
 
         if ((get_light() >= LIGHT_CUTOFF) || get_pir()) {
-            set_current_display(test);
+            if (lightsOn == 0) {
+                set_current_display(test);
+                lightsOn = 1;
+            }
         } else {
-            set_current_display(blank);
+            if (lightsOn == 1) {
+                set_current_display(blank);
+                lightsOn = 0;
+            }
         }
     }
 }

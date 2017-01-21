@@ -6,6 +6,7 @@
 #include "stdlib.h"
 #include "serial.h"
 #include "util.h"
+#include "print.h"
 #include <string.h>
 
 #define PI 3.14159265
@@ -67,6 +68,9 @@
 #define LETTER_COLON 0x80200
 #define LETTER_SLASH 0x462310
 
+#define ANIMATION_DEFAULT 0
+#define ANIMATION_FADE 1
+
 unsigned long characterList[60];
 byte characterWidth[60];
 
@@ -74,6 +78,10 @@ typedef struct {
     byte **matrix;
 } Display;
 Display *currentDisplay;
+Display *oldDisplay;
+Display *transitionDisplay;
+Display *newDisplay;
+byte animationCode;
 
 typedef struct {
     byte x;
@@ -85,6 +93,9 @@ void flush_data(byte cycleNum);
 
 void init_dmd();
 Display* create_display();
+void delete_display(Display* d);
+void copy_display(Display* d1, Display* d2);
+void diff_display(Display* dOut, Display* d1, Display* d2);
 void set_current_display(Display *d);
 void send_display(Display* d);
 void print_display(Display *d);
@@ -98,6 +109,8 @@ void draw_box(Display *d, Point p1, Point p2, byte val);
 void draw_char(Display *d, Point p, int height, char c);
 void draw_string(Display *d, Point p, int height, char *str);
 void clear_display(Display *d, byte val);
+
+void set_display_animation(byte ani);
 
 void set_display_intensity(byte val);
 
