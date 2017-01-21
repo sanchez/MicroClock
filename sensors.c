@@ -4,8 +4,11 @@ byte get_light() {
     return (read_adc(LIGHT_PIN) / 10);
 }
 
-byte get_temp() {
-    return (read_adc(TEMP_PIN) / 10);
+double get_temp() {
+    double temp;
+    temp = log(((10240000 / read_adc(TEMP_PIN)) - 10000));
+    temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * temp * temp)) * temp);
+    return (temp - 273.15);
 }
 
 int get_rtc_temp() {

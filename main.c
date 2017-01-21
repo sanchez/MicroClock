@@ -52,6 +52,10 @@ int main() {
         sprintf(dateStr, "%2d/%2d", t.date, t.month);
         draw_string(test, point(0, 11), 5, dateStr);
 
+        char tempStr[5];
+        sprintf(tempStr, "%.0fC", get_temp());
+        draw_string(test, point(21, 11), 5, tempStr);
+
         if ((get_light() >= LIGHT_CUTOFF) || get_pir()) {
             if (lightsOn == 0) {
                 set_current_display(test);

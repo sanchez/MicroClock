@@ -4,6 +4,7 @@
 #include "io.h"
 #include "i2c.h"
 #include "serial.h"
+#include <math.h>
 
 #define TEMP_PIN A0
 #define LIGHT_PIN A1
@@ -12,7 +13,7 @@
 void init_sensors();
 
 byte get_light();
-byte get_temp();
+double get_temp();
 int get_rtc_temp();
 byte get_pir();
 
