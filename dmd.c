@@ -54,7 +54,7 @@ unsigned long characterList[] = {
     0, // +
     0, // ,
     0, // -
-    0, // .
+    LETTER_DOT, // .
     LETTER_SLASH, // /
     LETTER_0, // 0
     LETTER_1, // 1
@@ -116,7 +116,7 @@ byte characterWidth[] = {
     3, // +
     3, // ,
     3, // -
-    3, // .
+    1, // .
     3, // /
     3, // 0
     3, // 1
